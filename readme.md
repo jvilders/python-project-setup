@@ -38,4 +38,10 @@ Poetry's [recommended install instructions](https://python-poetry.org/docs/#inst
 - Run `poetry install`
 - Activate the poetry environment by running `poetry shell`
 - If applicable, point your IDE towards the python interpreter inside the virtual environment, so that it can use the installed packages for type checking
-- Run `pre-commit install` to set up the pre-commit hookds
+- Run `pre-commit install` to set up the pre-commit hooks
+
+## Mac
+
+(Install instructions for pyenv and poetry here)
+
+- Important: Change the `python_executable` value in `mypy.ini` to `.venv/bin/python` instead, because the structure of the `.venv` folder is different on Mac.
