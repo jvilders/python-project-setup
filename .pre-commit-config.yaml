@@ -12,3 +12,5 @@ repos:
   rev: 'v1.10.0'  # Use the sha / tag you want to point at
   hooks:
     - id: mypy
+      language: python
+      entry: python scripts/mypy-proxy.py

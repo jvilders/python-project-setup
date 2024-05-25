@@ -18,4 +18,4 @@ def make_model(s: str) -> MyModel:
     return MyModel(my_field=[s])
 
 
-print(make_model("abc"))
+print(make_model("some_string"))

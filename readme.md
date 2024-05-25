@@ -43,5 +43,3 @@ Poetry's [recommended install instructions](https://python-poetry.org/docs/#inst
 ## Mac
 
 (Install instructions for pyenv and poetry here)
-
-- Important: Change the `python_executable` value in `mypy.ini` to `.venv/bin/python` instead, because the structure of the `.venv` folder is different on Mac.

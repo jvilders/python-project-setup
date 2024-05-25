@@ -63,7 +63,17 @@ ignore = [
     # see: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
     "E111",
     "E114",
-    "E117"
+    "E117",
+
+    # Keep docstrings optional
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
