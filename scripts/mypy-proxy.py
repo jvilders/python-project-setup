@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 
@@ -23,6 +24,7 @@ def get_venv_subdirectory(platform: str) -> str:
 if __name__ == "__main__":
     python_executable_location = f".venv/{get_venv_subdirectory(sys.platform)}/python"
 
+    os.environ["MYPY_FORCE_COLOR"] = "1"
     result = subprocess.run(
         ["mypy", ".", "--python-executable", python_executable_location],
     )
