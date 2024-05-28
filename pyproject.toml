@@ -27,7 +27,7 @@ cmd = "ruff format"
 
 [tool.poe.tasks.typecheck]
 help = "Typecheck all python files"
-cmd = "mypy ."
+cmd = "mypy"
 
 [tool.poe.tasks.check]
 help = "Lint, format, and typecheck all python files"

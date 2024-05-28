@@ -1,16 +1,23 @@
 repos:
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  # Ruff version.
-  rev: v0.4.5
+- repo: local
   hooks:
-    # Run the linter.
-    - id: ruff
-      args: [ --fix ]
-    # Run the formatter.
-    - id: ruff-format
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: 'v1.10.0'  # Use the sha / tag you want to point at
+    - id: lint
+      name: Linting
+      entry: poetry run poe lint
+      language: system
+      files: \.py$
+- repo: local
   hooks:
-    - id: mypy
-      language: python
-      entry: python scripts/mypy-proxy.py
+    - id: format
+      name: Formatting
+      entry: poetry run poe format
+      language: system
+      files: \.py$
+- repo: local
+  hooks:
+    - id: typecheck
+      name: Typechecking
+      entry: poetry run poe typecheck
+      language: system
+      files: \.py$
+
