@@ -10,7 +10,6 @@ Requires `poetry`, but `pyenv` is also recommended.
 - set that python version as the global version by using `pyenv global` (you can always change it later)
 
 ### `poetry`
-
 #### Prerequisites
 
 Poetry's [recommended install instructions](https://python-poetry.org/docs/#installation) use `pipx`. The [install instructions](https://github.com/pypa/pipx) for `pipx` on Windows recommend using `scoop`.
@@ -32,6 +31,10 @@ Poetry's [recommended install instructions](https://python-poetry.org/docs/#inst
   
      `poetry config virtualenvs.prefer-active-python true`
 
+## Mac
+
+(Install instructions for pyenv and poetry here)
+
 # Installation
 
 - Use the python version specified in the `.python-version` file with `pyenv`
@@ -40,6 +43,8 @@ Poetry's [recommended install instructions](https://python-poetry.org/docs/#inst
 - If applicable, point your IDE towards the python interpreter inside the virtual environment, so that it can use the installed packages for type checking
 - Run `pre-commit install` to set up the pre-commit hooks
 
-## Mac
+# Commands
 
-(Install instructions for pyenv and poetry here)
+Poe the poet is used as a task runner. Some convenience commands are provided, run `poe` within the virtual environment to see configured tasks and their descriptions.
+
+These commands are used in the pre-commit hooks, the idea being that these hooks will always use the exact same underlying package versions as when running these commands manually. 

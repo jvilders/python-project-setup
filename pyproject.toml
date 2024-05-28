@@ -29,10 +29,6 @@ cmd = "ruff format"
 help = "Typecheck all python files"
 cmd = "mypy"
 
-[tool.poe.tasks.check]
-help = "Lint, format, and typecheck all python files"
-sequence = ["lint", "format", "typecheck"]
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
