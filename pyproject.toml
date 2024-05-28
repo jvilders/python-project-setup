@@ -10,12 +10,28 @@ python = "^3.12"
 pydantic = "^2.7.1"
 pandas = "^2.2.2"
 
-
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.5"
 pre-commit = "^3.7.1"
 mypy = "^1.10.0"
 pandas-stubs = "^2.2.2.240514"
+poethepoet = "^0.26.1"
+
+[tool.poe.tasks.lint]
+help = "Lint all python files"
+cmd = "ruff check --fix"
+
+[tool.poe.tasks.format]
+help = "Format all python files"
+cmd = "ruff format"
+
+[tool.poe.tasks.typecheck]
+help = "Typecheck all python files"
+cmd = "mypy ."
+
+[tool.poe.tasks.check]
+help = "Lint, format, and typecheck all python files"
+sequence = ["lint", "format", "typecheck"]
 
 [build-system]
 requires = ["poetry-core"]
