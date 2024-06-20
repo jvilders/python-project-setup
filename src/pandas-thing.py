@@ -1,4 +1,4 @@
-"""Experimenting with pandas, which requires stubs to be installedfor mypy to shut up."""
+"""Experimenting with pandas, which requires stubs to be installed for mypy to shut up."""
 
 import pandas as pd
 

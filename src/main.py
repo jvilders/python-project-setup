@@ -1,4 +1,4 @@
-"""My first an only file for this module."""
+"""My first and only file for this module."""
 
 from pydantic import BaseModel
 
