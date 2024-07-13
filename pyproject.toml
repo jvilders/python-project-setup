@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python-project-standard"
+name = "package_name_here"
 version = "0.1.0"
 description = "A template for modern Python projects"
 authors = ["jvilders <60934195+jvilders@users.noreply.github.com>"]
@@ -27,7 +27,12 @@ cmd = "ruff format"
 
 [tool.poe.tasks.typecheck]
 help = "Typecheck all python files"
-cmd = "mypy"
+cmd = "mypy ."
+
+[tool.poe.tasks.build]
+help = "Builds the package"
+cmd = "python scripts/build.py"
+
 
 [build-system]
 requires = ["poetry-core"]

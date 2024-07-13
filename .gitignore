@@ -2,3 +2,5 @@
 .ruff_cache
 .vscode
 .mypy_cache
+dist
+__pycache__/
