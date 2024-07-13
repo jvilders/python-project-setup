@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python-project-standard"
+name = "package_name_here"
 version = "0.1.0"
 description = "A template for modern Python projects"
 authors = ["jvilders <60934195+jvilders@users.noreply.github.com>"]
@@ -28,6 +28,58 @@ cmd = "ruff format"
 [tool.poe.tasks.typecheck]
 help = "Typecheck all python files"
 cmd = "mypy"
+
+[tool.poe.tasks.build]
+help = "Builds the package"
+sequence = [
+    "build-stubs", 
+    "copy-to-intermediate-folder", 
+    "add-marker",
+    "rename-original-folder",
+    "move-intermediate-folder-to-root",
+    "poetry-build",
+    "cleanup-intermediate-folders",
+    "cleanup-intermediate-folders-2",
+    "rename-original-folder-back"
+]
+
+
+[tool.poe.tasks.build-stubs]
+help = "Builds stubs in intermediate folder"
+cmd = "stubgen ./package_name_here/"
+
+[tool.poe.tasks.copy-to-intermediate-folder]
+help = "Copies package files to intermediate folder"
+script = "shutil:copytree('package_name_here', 'out/package_name_here', dirs_exist_ok=True)"
+
+[tool.poe.tasks.add-marker]
+help = "Add py.typed marker file"
+script = "scripts.make_file:make_file('out/package_name_here/py.typed')"
+
+[tool.poe.tasks.rename-original-folder]
+help = "Rename original package folder to temporary folder"
+script = "os:rename('package_name_here', 'temporary')"
+
+[tool.poe.tasks.move-intermediate-folder-to-root]
+help = "Put intermediate folder in root, to prepare for publishing"
+script = "os:rename('out/package_name_here', 'package_name_here')"
+
+[tool.poe.tasks.poetry-build]
+help = "Build the package using poetry"
+cmd = "poetry build"
+
+[tool.poe.tasks.cleanup-intermediate-folders]
+help = "Clean up intermediate folders"
+script = "shutil:rmtree('out')"
+
+[tool.poe.tasks.cleanup-intermediate-folders-2]
+help = "Clean up intermediate folders"
+script = "shutil:rmtree('package_name_here')"
+
+[tool.poe.tasks.rename-original-folder-back]
+help = "Rename original package folder back"
+script = "os:rename('temporary', 'package_name_here')"
+
 
 [build-system]
 requires = ["poetry-core"]
