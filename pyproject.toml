@@ -34,7 +34,6 @@ cmd = "mypy"
 help = "Builds the package"
 cmd = "python scripts/build.py"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
