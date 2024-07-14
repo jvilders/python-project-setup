@@ -6,7 +6,7 @@ authors = ["jvilders <60934195+jvilders@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 pydantic = "^2.7.1"
 pandas = "^2.2.2"
 
@@ -16,23 +16,23 @@ pre-commit = "^3.7.1"
 mypy = "^1.10.0"
 pandas-stubs = "^2.2.2.240514"
 poethepoet = "^0.26.1"
+tomli = { version = "^2.0.1", python = "<3.11" }
 
 [tool.poe.tasks.lint]
-help = "Lint all python files"
+help = "Lint provided python files"
 cmd = "ruff check --fix"
 
 [tool.poe.tasks.format]
-help = "Format all python files"
+help = "Format provided python files"
 cmd = "ruff format"
 
 [tool.poe.tasks.typecheck]
-help = "Typecheck all python files"
-cmd = "mypy ."
+help = "Typecheck provided python files"
+cmd = "mypy"
 
 [tool.poe.tasks.build]
 help = "Builds the package"
 cmd = "python scripts/build.py"
-
 
 [build-system]
 requires = ["poetry-core"]

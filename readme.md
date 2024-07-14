@@ -38,7 +38,7 @@ Poetry's [recommended install instructions](https://python-poetry.org/docs/#inst
 # Installation
 
 - Use the python version specified in the `.python-version` file with `pyenv`
-- Run `poetry install`
+- Run `poetry install --sync`
 - Activate the poetry environment by running `poetry shell`
 - If applicable, point your IDE towards the python interpreter inside the virtual environment, so that it can use the installed packages for type checking
 - Run `pre-commit install` to set up the pre-commit hooks
