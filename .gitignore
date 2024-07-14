@@ -4,3 +4,5 @@
 .mypy_cache
 dist
 __pycache__/
+.coverage
+htmlcov

@@ -15,9 +15,16 @@ repos:
       files: \.py$
 - repo: local
   hooks:
+    - id: test
+      name: Running unit tests
+      entry: poetry run poe test
+      pass_filenames: false
+      language: system
+      stages: [push]
+- repo: local
+  hooks:
     - id: typecheck
       name: Typechecking
       entry: poetry run poe typecheck
       language: system
       files: \.py$
-

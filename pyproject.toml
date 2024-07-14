@@ -17,6 +17,9 @@ mypy = "^1.10.0"
 pandas-stubs = "^2.2.2.240514"
 poethepoet = "^0.26.1"
 tomli = { version = "^2.0.1", python = "<3.11" }
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+
 
 [tool.poe.tasks.lint]
 help = "Lint provided python files"
@@ -30,9 +33,13 @@ cmd = "ruff format"
 help = "Typecheck provided python files"
 cmd = "mypy"
 
+[tool.poe.tasks.test]
+help = "Run unit tests"
+cmd = "python -m scripts.test"
+
 [tool.poe.tasks.build]
 help = "Builds the package"
-cmd = "python scripts/build.py"
+cmd = "python -m scripts.build"
 
 [build-system]
 requires = ["poetry-core"]
