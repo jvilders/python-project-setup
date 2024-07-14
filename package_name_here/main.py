@@ -16,6 +16,3 @@ def make_model(s: str) -> MyModel:
     The instance is returned.
     """
     return MyModel(my_field=[s])
-
-
-print(make_model("some_string"))

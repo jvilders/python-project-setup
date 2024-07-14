@@ -41,7 +41,7 @@ Poetry's [recommended install instructions](https://python-poetry.org/docs/#inst
 - Run `poetry install --sync`
 - Activate the poetry environment by running `poetry shell`
 - If applicable, point your IDE towards the python interpreter inside the virtual environment, so that it can use the installed packages for type checking
-- Run `pre-commit install` to set up the pre-commit hooks
+- Run `pre-commit install --hook-type pre-commit --hook-type pre-push` to set up the pre-commit and pre-push hooks
 
 # Commands
 

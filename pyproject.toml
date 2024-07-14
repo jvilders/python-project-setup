@@ -17,6 +17,7 @@ mypy = "^1.10.0"
 pandas-stubs = "^2.2.2.240514"
 poethepoet = "^0.26.1"
 tomli = { version = "^2.0.1", python = "<3.11" }
+pytest = "^8.2.2"
 
 [tool.poe.tasks.lint]
 help = "Lint provided python files"
@@ -29,6 +30,10 @@ cmd = "ruff format"
 [tool.poe.tasks.typecheck]
 help = "Typecheck provided python files"
 cmd = "mypy"
+
+[tool.poe.tasks.test]
+help = "Run unit tests"
+cmd = "pytest"
 
 [tool.poe.tasks.build]
 help = "Builds the package"
