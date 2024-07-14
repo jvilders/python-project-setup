@@ -16,24 +16,8 @@ steps are used.
 import os
 import shutil
 import subprocess
-import sys
 
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    import tomli as tomllib
-
-from pathlib import Path
-
-
-def get_package_name() -> str:
-    pyproject_toml_file = Path(__file__).parent.parent.joinpath("pyproject.toml")
-
-    with open(pyproject_toml_file, "rb") as f:
-        data = tomllib.load(f)
-        package_name: str = data["tool"]["poetry"]["name"]
-        return package_name
-
+from .utils import get_package_name
 
 if __name__ == "__main__":
     PACKAGE_NAME = get_package_name()
