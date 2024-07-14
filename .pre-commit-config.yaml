@@ -18,6 +18,7 @@ repos:
     - id: test
       name: Running unit tests
       entry: poetry run poe test
+      pass_filenames: false
       language: system
       stages: [push]
 - repo: local
