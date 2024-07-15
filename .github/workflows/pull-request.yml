@@ -1,0 +1,82 @@
+name: Pull request workflow
+on: 
+    pull_request: 
+        branches: master
+
+jobs:
+    code-checks:
+        name: Code checks
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup project
+              uses: ./.github/actions/setup-action
+
+            - name: Lint
+              id: lint
+              run: |
+                poetry run poe ci-lint
+
+            - name: Format
+              id: format
+              run: |
+                poetry run poe ci-format
+            
+            - name: Typecheck
+              id: typecheck
+              run: |
+                poetry run poe ci-typecheck
+            
+            - name: Unit-test
+              id: unit-test
+              run: |
+                poetry run poe test
+
+            # do something with generated code coverage?
+
+    build:
+        name: Build
+        needs: code-checks
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup project
+              uses: ./.github/actions/setup-action
+
+            - name: Build
+              id: build
+              run: |
+                poetry run poe build
+
+            - name: Archive production artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: package-dist
+                path: dist
+
+    publish:
+        name: Publish
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup project
+              uses: ./.github/actions/setup-action
+
+            - name: Download build artifact
+              uses: actions/download-artifact@v4
+              with:
+                name: package-dist
+                path: dist
+
+            - name: Publish
+              id: publish
+              run: poetry run poe publish
+
+            # Would be nice to update PR with published package information
