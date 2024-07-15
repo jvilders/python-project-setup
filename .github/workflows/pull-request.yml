@@ -17,22 +17,22 @@ jobs:
             - name: Lint
               id: lint
               run: |
-                poetry run poe ci-lint
+                poe ci-lint
 
             - name: Format
               id: format
               run: |
-                poetry run poe ci-format
+                poe ci-format
             
             - name: Typecheck
               id: typecheck
               run: |
-                poetry run poe ci-typecheck
+                poe ci-typecheck
             
             - name: Unit-test
               id: unit-test
               run: |
-                poetry run poe test
+                poe test
 
             # do something with generated code coverage?
 
@@ -47,10 +47,25 @@ jobs:
             - name: Setup project
               uses: ./.github/actions/setup-action
 
+            - name: Determine PR package version
+              run: |
+                # Get latest tag or, as a fallback, 0.0.0
+
+                # bump patch version
+                poetry version patch
+
+                # Make alpha version, include timestamp for uniqueness
+                NEW_VERSION=...
+                echo NEW_VERSION >> $GITHUB_ENV
+
+            - name: Version package
+              run: |
+                poetry version $NEW_VERSION
+
             - name: Build
               id: build
               run: |
-                poetry run poe build
+                poe build
 
             - name: Archive production artifacts
               uses: actions/upload-artifact@v4
@@ -65,6 +80,8 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
 
             - name: Setup project
               uses: ./.github/actions/setup-action
@@ -77,6 +94,8 @@ jobs:
 
             - name: Publish
               id: publish
-              run: poetry run poe publish
+              run: |
+                poe publish
 
             # Would be nice to update PR with published package information
+            # Leave for later
