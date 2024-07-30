@@ -1,6 +1,6 @@
 import pandas as pd
 
-from package_name_here.subfolder.pandas_thing import df
+from package_name_here.subfolder import df
 
 
 def test_dummy() -> None:
