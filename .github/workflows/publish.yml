@@ -16,6 +16,8 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    permissions:
+        pull-requests: write
     steps:
       - name: Verify package_version is non-empty
         run: |
