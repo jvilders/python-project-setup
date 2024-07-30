@@ -2,7 +2,9 @@
 .ruff_cache
 .vscode
 .mypy_cache
+.pytest_cache
 dist
 __pycache__/
 .coverage
 htmlcov
+test-results

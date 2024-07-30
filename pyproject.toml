@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "package_name_here"
+name = "package-name-here"
 version = "0.1.0"
 description = "A template for modern Python projects"
 authors = ["jvilders <60934195+jvilders@users.noreply.github.com>"]
@@ -22,15 +22,27 @@ pytest-cov = "^5.0.0"
 
 
 [tool.poe.tasks.lint]
-help = "Lint provided python files"
+help = "Lint provided python files (lint everything if no files are provided)"
 cmd = "ruff check --fix"
 
+[tool.poe.tasks.ci-lint]
+help = "Lint everything without auto-fixing, failing if anything is incorrect"
+cmd = "ruff check"
+
 [tool.poe.tasks.format]
-help = "Format provided python files"
+help = "Format provided python files (format everything if no files are provided)"
 cmd = "ruff format"
 
+[tool.poe.tasks.ci-format]
+help = "Check everything for formatting violations"
+cmd = "ruff format --check"
+
 [tool.poe.tasks.typecheck]
-help = "Typecheck provided python files"
+help = "Typecheck provided python files (typecheck everything if no files are provided)"
+cmd = "mypy"
+
+[tool.poe.tasks.ci-typecheck]
+help = "Typecheck everything"
 cmd = "mypy"
 
 [tool.poe.tasks.test]
@@ -40,6 +52,10 @@ cmd = "python -m scripts.test"
 [tool.poe.tasks.build]
 help = "Builds the package"
 cmd = "python -m scripts.build"
+
+[tool.poe.tasks.publish]
+help = "Publishes the package"
+cmd = "python -m scripts.publish"
 
 [build-system]
 requires = ["poetry-core"]
