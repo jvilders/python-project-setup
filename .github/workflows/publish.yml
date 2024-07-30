@@ -1,0 +1,70 @@
+name: Publish
+
+on:
+  workflow_call:
+    inputs:
+      package_version:
+        required: true
+        type: string
+        description: "The version of the package to publish"
+      release:
+        required: true
+        type: boolean
+        description: "Whether the new version is a release. This determines whether the version is grabbed from the tag (release) or an alpha is made using the last published tag (PR)"
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify package_version is non-empty
+        run: |
+          if [ -z "${{ inputs.package_version }}" ]; then
+          echo "package_version input is empty, ensure this is correctly passed from the build step"
+          exit 1
+          fi
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup project
+        uses: ./.github/actions/setup-action
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: package-dist
+          path: dist
+
+      # Poetry will not publish what's in dist if that version is not in pyproject.toml
+      # so sync the built version before publishing
+      - name: Sync built version
+        run: poetry version ${{ inputs.package_version }}
+
+      - name: Publish
+        id: publish
+        run: |
+          poe publish
+
+      - name: Get package name
+        id: get-package-name
+        run: |
+          PACKAGE_NAME=$(poetry version | cut -d " " -f 1)
+          echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+
+      - name: Add published package comment
+        uses: actions/github-script@v5
+        if: ${{ inputs.release == false && github.actor != 'dependabot[bot]' }}
+        env:
+          PACKAGE_NAME: ${{ steps.get-package-name.outputs.package_name }}
+          NEW_VERSION: ${{ inputs.package_version }}
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const { PACKAGE_NAME, NEW_VERSION } = process.env
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Published alpha version: ${PACKAGE_NAME} \`${NEW_VERSION}\``
+            })

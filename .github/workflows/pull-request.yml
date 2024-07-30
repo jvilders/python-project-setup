@@ -1,101 +1,23 @@
 name: Pull request workflow
-on: 
-    pull_request: 
-        branches: master
+on:
+  pull_request:
+    branches: [main]
 
 jobs:
-    code-checks:
-        name: Code checks
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+  code-checks:
+    uses: ./.github/workflows/code-checks.yml
+    with:
+      release: false
 
-            - name: Setup project
-              uses: ./.github/actions/setup-action
+  build:
+    uses: ./.github/workflows/build.yml
+    needs: code-checks
+    with:
+      release: false
 
-            - name: Lint
-              id: lint
-              run: |
-                poe ci-lint
-
-            - name: Format
-              id: format
-              run: |
-                poe ci-format
-            
-            - name: Typecheck
-              id: typecheck
-              run: |
-                poe ci-typecheck
-            
-            - name: Unit-test
-              id: unit-test
-              run: |
-                poe test
-
-            # do something with generated code coverage?
-
-    build:
-        name: Build
-        needs: code-checks
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-
-            - name: Setup project
-              uses: ./.github/actions/setup-action
-
-            - name: Determine PR package version
-              run: |
-                # Get latest tag or, as a fallback, 0.0.0
-
-                # bump patch version
-                poetry version patch
-
-                # Make alpha version, include timestamp for uniqueness
-                NEW_VERSION=...
-                echo NEW_VERSION >> $GITHUB_ENV
-
-            - name: Version package
-              run: |
-                poetry version $NEW_VERSION
-
-            - name: Build
-              id: build
-              run: |
-                poe build
-
-            - name: Archive production artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                name: package-dist
-                path: dist
-
-    publish:
-        name: Publish
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-              with:
-                fetch-depth: 0
-
-            - name: Setup project
-              uses: ./.github/actions/setup-action
-
-            - name: Download build artifact
-              uses: actions/download-artifact@v4
-              with:
-                name: package-dist
-                path: dist
-
-            - name: Publish
-              id: publish
-              run: |
-                poe publish
-
-            # Would be nice to update PR with published package information
-            # Leave for later
+  publish:
+    uses: ./.github/workflows/publish.yml
+    needs: build
+    with:
+      package_version: ${{ needs.build.outputs.package_version }}
+      release: false

@@ -9,15 +9,20 @@ import subprocess
 from .utils import get_package_name
 
 if __name__ == "__main__":
-    package_name = get_package_name()
+    package_name = get_package_name(slugify=True)
     subprocess.run(
         [
             "pytest",
+            "--cov-fail-under=90",
             f"--cov={package_name}",
             "--cov-report",
             "term-missing",
+            "--junitxml=test-results/junit.xml",
             "--cov-report",
-            "html",
+            "lcov:test-results/lcov.info",
+            "--cov-report",
+            "html:test-results/html_report",
             "tests/",
-        ]
+        ],
+        check=True,
     )

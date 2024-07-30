@@ -1,0 +1,44 @@
+name: "Project setup"
+description: "This action checks out the commit, sets up Python and Poetry, then installs the project"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup python
+      id: setup-python
+      uses: actions/setup-python@v5 # Uses version from .python-version file
+
+    - name: Load cached Poetry installation
+      id: cached-poetry
+      uses: actions/cache@v4
+      with:
+        path: ~/.local # The path depends on the OS
+        key: poetry-${{ runner.os }}-0 # Increment to reset cache
+
+    - name: Install Poetry
+      if: steps.cached-poetry.outputs.cache-hit != 'true'
+      uses: snok/install-poetry@v1
+      with:
+        virtualenvs-in-project: true
+
+    - name: Run pre-install script
+      shell: bash
+      run: python -m scripts.pre_install
+
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v4
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('poetry.lock') }}
+
+    - name: Install dependencies
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      shell: bash
+      run: poetry install --sync
+
+    - name: Activate environmnet
+      shell: bash
+      run: |
+        source $(poetry env info --path)/bin/activate
+        echo PATH=$PATH >> $GITHUB_ENV
