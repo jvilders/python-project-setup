@@ -1,5 +1,5 @@
 name: "Project setup"
-description: "This action checks out the commit, sets up Python and Poetry, then installs the project"
+description: "This action checks out the commit, sets up uv and python, then installs the project"
 
 runs:
   using: "composite"
