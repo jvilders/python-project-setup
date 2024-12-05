@@ -1,5 +1,7 @@
 # Prerequisites
 
+This project uses [`uv`](https://docs.astral.sh/uv/).
+
 This project requires [`poetry`](https://python-poetry.org/docs/#installation) and [`pyenv`](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation).
 
 ## Poetry setup

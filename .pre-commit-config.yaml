@@ -3,28 +3,28 @@ repos:
   hooks:
     - id: lint
       name: Linting
-      entry: poetry run poe lint
+      entry: uv run poe lint
       language: system
       files: \.py$
 - repo: local
   hooks:
     - id: format
       name: Formatting
-      entry: poetry run poe format
+      entry: uv run poe format
       language: system
       files: \.py$
 - repo: local
   hooks:
     - id: typecheck
       name: Typechecking
-      entry: poetry run poe typecheck
+      entry: uv run poe typecheck
       language: system
       files: \.py$
 - repo: local
   hooks:
     - id: test
       name: Running unit tests
-      entry: poetry run poe test
+      entry: uv run poe test
       pass_filenames: false
       language: system
-      stages: [push]
+      stages: [pre-push]

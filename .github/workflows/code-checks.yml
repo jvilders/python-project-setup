@@ -12,9 +12,6 @@ jobs:
   code-checks:
     name: Code checks
     runs-on: ubuntu-latest
-    permissions:
-        checks: write
-        pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,39 +22,20 @@ jobs:
       - name: Lint
         id: lint
         run: |
-          poe ci-lint
+          uv run poe ci-lint
 
       - name: Format
         id: format
         run: |
-          poe ci-format
+          uv run poe ci-format
 
       - name: Typecheck
         id: typecheck
         run: |
-          poe ci-typecheck
+          uv run poe ci-typecheck
 
       - name: Unit-test
         id: unit-test
         run: |
-          poe test
+          uv run poe test
 
-      - name: Setup LCOV
-        uses: hrishikesh-kadam/setup-lcov@v1
-
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/linux@v2
-        if: ${{ always() && inputs.release == false && github.actor != 'dependabot[bot]' }}
-        with:
-          files: test-results/junit.xml
-          check_run_annotations: all tests, skipped tests
-
-      - name: Report code coverage
-        uses: zgosalvez/github-actions-report-lcov@v3
-        if: ${{ inputs.release == false && github.actor != 'dependabot[bot]' }}
-        with:
-          coverage-files: test-results/lcov.info
-          minimum-coverage: 60
-          artifact-name: code-coverage-report
-          github-token: ${{ github.token }}
-          update-comment: true

@@ -1,6 +1,6 @@
 from pydantic import ValidationError
 
-from package_name_here import make_model
+from python_project_standard import make_model
 
 
 class TestMakeModel:
