@@ -1,25 +1,31 @@
-[tool.poetry]
-name = "package-name-here"
+[project]
+name = "python-project-standard"
 version = "0.1.0"
 description = "A template for modern Python projects"
-authors = ["jvilders <60934195+jvilders@users.noreply.github.com>"]
 readme = "README.md"
+requires-python = ">=3.12.3"
+dependencies = [
+    "pandas>=2.2.3",
+    "pydantic>=2.10.3",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-pydantic = "^2.7.1"
-pandas = "^2.2.2"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.4.5"
-pre-commit = "^3.7.1"
-mypy = "^1.10.0"
-pandas-stubs = "^2.2.2.240514"
-poethepoet = "^0.26.1"
-tomli = { version = "^2.0.1", python = "<3.11" }
-pytest = "^8.2.2"
-pytest-cov = "^5.0.0"
+[dependency-groups]
+dev = [
+    "mypy>=1.13.0",
+    "pandas-stubs>=2.2.3.241126",
+    "poethepoet>=0.31.1",
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.2",
+]
 
+[tool.pytest.ini_options]
+addopts = "--cov-fail-under=90 --cov=src --cov-report term-missing --junitxml=test-results/junit.xml --cov-report lcov:test-results/lcov.info --cov-report html:test-results/html_report"
 
 [tool.poe.tasks.lint]
 help = "Lint provided python files (lint everything if no files are provided)"
@@ -47,16 +53,13 @@ cmd = "mypy"
 
 [tool.poe.tasks.test]
 help = "Run unit tests"
-cmd = "python -m scripts.test"
+cmd = "pytest test/"
 
 [tool.poe.tasks.build]
 help = "Builds the package"
-cmd = "python -m scripts.build"
+cmd = "uv build"
 
 [tool.poe.tasks.publish]
 help = "Publishes the package"
-cmd = "python -m scripts.publish"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+# uv does not have a --dry-run options for its publish command
+cmd = "python -c 'print(\"Fake publish step complete!\")'"

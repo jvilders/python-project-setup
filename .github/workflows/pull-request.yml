@@ -12,12 +12,7 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     needs: code-checks
-    with:
-      release: false
 
   publish:
     uses: ./.github/workflows/publish.yml
     needs: build
-    with:
-      package_version: ${{ needs.build.outputs.package_version }}
-      release: false
