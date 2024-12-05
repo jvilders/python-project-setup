@@ -36,11 +36,6 @@ jobs:
           name: package-dist
           path: dist
 
-      # Poetry will not publish what's in dist if that version is not in pyproject.toml
-      # so sync the built version before publishing
-      - name: Sync built version
-        run: poetry version ${{ inputs.package_version }}
-
       - name: Publish
         id: publish
         run: |

@@ -61,4 +61,5 @@ cmd = "uv build"
 
 [tool.poe.tasks.publish]
 help = "Publishes the package"
-cmd = "uv publish"
+# uv does not have a --dry-run options for its publish command
+cmd = "python -c 'print(\"Fake publish step complete!\")'"
